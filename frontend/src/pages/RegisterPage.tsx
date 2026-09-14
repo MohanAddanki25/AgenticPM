@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { registerUser } from "../api/client";
+import { getApiErrorMessage } from "../utils/errors";
 
 const RegisterPage: React.FC = () => {
   const [name, setName] = useState("");
@@ -8,7 +9,6 @@ const RegisterPage: React.FC = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const { register } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -16,10 +16,10 @@ const RegisterPage: React.FC = () => {
     setError(null);
     setLoading(true);
     try {
-      await register(name, email, password);
-      navigate("/");
+      await registerUser(name, email, password);
+      navigate("/login");
     } catch (err: any) {
-      setError(err?.response?.data?.detail || "Registration failed");
+      setError(getApiErrorMessage(err, "Registration failed"));
     } finally {
       setLoading(false);
     }
