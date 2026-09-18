@@ -23,6 +23,7 @@ const DashboardPage: React.FC = () => {
   const [showNewProject, setShowNewProject] = useState(false);
   const [showNewTask, setShowNewTask] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [statusError, setStatusError] = useState<string | null>(null);
 
   const selectedProject = useMemo(
     () => projects.find((p) => p.id === selectedProjectId) || null,
@@ -72,16 +73,16 @@ const DashboardPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-slate-50">
       <header className="bg-white border-b border-slate-200 sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div>
-            <h1 className="font-bold text-slate-800">Agentic AI Project Management & Risk Monitoring</h1>
-            <p className="text-xs text-slate-500">Multi-agent risk analysis, dependency tracking & prioritization</p>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-3">
+          <div className="min-w-0">
+            <h1 className="font-bold text-slate-800 text-sm sm:text-base truncate">Agentic AI Project Management &amp; Risk</h1>
+            <p className="text-xs text-slate-500 hidden sm:block">Multi-agent risk analysis, dependency tracking &amp; prioritization</p>
           </div>
-          <button onClick={logout} className="text-sm text-slate-500 hover:text-slate-800">Sign out</button>
+          <button onClick={logout} className="text-xs sm:text-sm text-slate-500 hover:text-slate-800 whitespace-nowrap flex-shrink-0">Sign out</button>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-6 py-6 space-y-6">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6 space-y-4 sm:space-y-6">
         {/* Project selector */}
         <div className="flex flex-wrap items-center gap-3">
           <select
@@ -120,6 +121,12 @@ const DashboardPage: React.FC = () => {
         </div>
 
         {error && <div className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-2">{error}</div>}
+        {statusError && (
+          <div className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-2 flex items-center justify-between">
+            <span>{statusError}</span>
+            <button onClick={() => setStatusError(null)} className="ml-3 text-red-400 hover:text-red-600 font-bold">×</button>
+          </div>
+        )}
 
         {showNewProject && (
           <NewProjectForm
@@ -174,8 +181,16 @@ const DashboardPage: React.FC = () => {
                       <select
                         value={t.status}
                         onChange={async (e) => {
-                          await updateTask(selectedProjectId!, t.id, { status: e.target.value as TaskStatus });
-                          await loadTasks(selectedProjectId!);
+                          const newStatus = e.target.value as TaskStatus;
+                          setStatusError(null);
+                          try {
+                            await updateTask(selectedProjectId!, t.id, { status: newStatus });
+                            await loadTasks(selectedProjectId!);
+                          } catch (err: any) {
+                            setStatusError(
+                              err?.response?.data?.detail || `Failed to update status for "${t.name}". Please try again.`
+                            );
+                          }
                         }}
                         className="text-xs rounded-md border border-slate-300 px-2 py-1 bg-white"
                       >

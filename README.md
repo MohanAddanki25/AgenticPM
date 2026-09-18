@@ -508,3 +508,4 @@ pytest -v
 * **Lead Engineer**: Mohan Addanki ([@MohanAddanki25](https://github.com/MohanAddanki25))
 * **Repository**: [https://github.com/MohanAddanki25/AgenticPM](https://github.com/MohanAddanki25/AgenticPM)
 
+*Licensed under the MIT License — open for enterprise and community development.*

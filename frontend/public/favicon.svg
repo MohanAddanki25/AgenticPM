@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <rect width="32" height="32" rx="8" fill="#3a52d6"/>
+  <!-- Central node -->
+  <circle cx="16" cy="16" r="3.5" fill="white"/>
+  <!-- Outer nodes -->
+  <circle cx="8" cy="9" r="2" fill="white" opacity="0.85"/>
+  <circle cx="24" cy="9" r="2" fill="white" opacity="0.85"/>
+  <circle cx="8" cy="23" r="2" fill="white" opacity="0.85"/>
+  <circle cx="24" cy="23" r="2" fill="white" opacity="0.85"/>
+  <circle cx="16" cy="5" r="2" fill="white" opacity="0.7"/>
+  <circle cx="16" cy="27" r="2" fill="white" opacity="0.7"/>
+  <!-- Edges from center -->
+  <line x1="16" y1="12.5" x2="8" y2="9" stroke="white" stroke-width="1.2" opacity="0.6"/>
+  <line x1="16" y1="12.5" x2="24" y2="9" stroke="white" stroke-width="1.2" opacity="0.6"/>
+  <line x1="16" y1="19.5" x2="8" y2="23" stroke="white" stroke-width="1.2" opacity="0.6"/>
+  <line x1="16" y1="19.5" x2="24" y2="23" stroke="white" stroke-width="1.2" opacity="0.6"/>
+  <line x1="16" y1="12.5" x2="16" y2="7" stroke="white" stroke-width="1.2" opacity="0.6"/>
+  <line x1="16" y1="19.5" x2="16" y2="25" stroke="white" stroke-width="1.2" opacity="0.6"/>
+</svg>

@@ -43,58 +43,73 @@ async def main():
     frontend_due = today + timedelta(days=1)
     testing_due = today + timedelta(days=2)
 
-    project_doc = {
+    # --- Idempotent project creation ---
+    # Check if the demo project already exists for this user to prevent duplicates
+    # from repeated seed script executions.
+    existing_project = await db.projects.find_one({
         "name": "E-Commerce Platform Revamp",
-        "description": "Backend, frontend integration and QA for the new checkout flow.",
-        "start_date": (today - timedelta(days=14)).isoformat(),
-        "target_end_date": (today + timedelta(days=3)).isoformat(),
         "owner_id": owner_id,
-        "created_at": datetime.now(timezone.utc),
-    }
-    project_result = await db.projects.insert_one(project_doc)
-    project_id = str(project_result.inserted_id)
+    })
 
-    tasks = [
-        {
-            "name": "Backend API",
-            "description": "Core REST API for checkout and payments.",
-            "due_date": backend_due.isoformat(),
-            "status": "Completed",
-            "assignee": "Asha (Backend)",
-            "depends_on": [],
-            "resource_notes": None,
-            "project_id": project_id,
+    if existing_project:
+        project_id = str(existing_project["_id"])
+        print(f"Demo project already exists (id={project_id}). Skipping project + task creation.")
+        project_doc = existing_project
+        project_doc["start_date"] = existing_project.get("start_date", (today - timedelta(days=14)).isoformat())
+        project_doc["target_end_date"] = existing_project.get("target_end_date", (today + timedelta(days=3)).isoformat())
+    else:
+        project_doc = {
+            "name": "E-Commerce Platform Revamp",
+            "description": "Backend, frontend integration and QA for the new checkout flow.",
+            "start_date": (today - timedelta(days=14)).isoformat(),
+            "target_end_date": (today + timedelta(days=3)).isoformat(),
+            "owner_id": owner_id,
             "created_at": datetime.now(timezone.utc),
-            "updated_at": datetime.now(timezone.utc),
-        },
-        {
-            "name": "Frontend integration",
-            "description": "Wire checkout UI to backend API.",
-            "due_date": frontend_due.isoformat(),
-            "status": "In Progress",
-            "assignee": "Rahul (Frontend)",
-            "depends_on": ["Backend API"],
-            "resource_notes": None,
-            "project_id": project_id,
-            "created_at": datetime.now(timezone.utc),
-            "updated_at": datetime.now(timezone.utc),
-        },
-        {
-            "name": "Testing",
-            "description": "End-to-end QA of checkout flow.",
-            "due_date": testing_due.isoformat(),
-            "status": "Not Started",
-            "assignee": "Priya (QA)",
-            "depends_on": ["Frontend integration"],
-            "resource_notes": None,
-            "project_id": project_id,
-            "created_at": datetime.now(timezone.utc),
-            "updated_at": datetime.now(timezone.utc),
-        },
-    ]
-    await db.tasks.insert_many([dict(t) for t in tasks])
+        }
+        project_result = await db.projects.insert_one(project_doc)
+        project_id = str(project_result.inserted_id)
 
-    print(f"Seeded project '{project_doc['name']}' (id={project_id}) with 3 tasks.")
+        tasks = [
+            {
+                "name": "Backend API",
+                "description": "Core REST API for checkout and payments.",
+                "due_date": backend_due.isoformat(),
+                "status": "Completed",
+                "assignee": "Asha (Backend)",
+                "depends_on": [],
+                "resource_notes": None,
+                "project_id": project_id,
+                "created_at": datetime.now(timezone.utc),
+                "updated_at": datetime.now(timezone.utc),
+            },
+            {
+                "name": "Frontend integration",
+                "description": "Wire checkout UI to backend API.",
+                "due_date": frontend_due.isoformat(),
+                "status": "In Progress",
+                "assignee": "Rahul (Frontend)",
+                "depends_on": ["Backend API"],
+                "resource_notes": None,
+                "project_id": project_id,
+                "created_at": datetime.now(timezone.utc),
+                "updated_at": datetime.now(timezone.utc),
+            },
+            {
+                "name": "Testing",
+                "description": "End-to-end QA of checkout flow.",
+                "due_date": testing_due.isoformat(),
+                "status": "Not Started",
+                "assignee": "Priya (QA)",
+                "depends_on": ["Frontend integration"],
+                "resource_notes": None,
+                "project_id": project_id,
+                "created_at": datetime.now(timezone.utc),
+                "updated_at": datetime.now(timezone.utc),
+            },
+        ]
+        await db.tasks.insert_many([dict(t) for t in tasks])
+        print(f"Seeded project '{project_doc['name']}' (id={project_id}) with 3 tasks.")
+
     print(f"Demo login -> email: {email}  password: password123\n")
 
     # Reload with date objects the way the API layer would, and run agents

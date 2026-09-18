@@ -25,6 +25,9 @@ class Settings(BaseSettings):
             "http://127.0.0.1:5173",
             "http://localhost:5174",
             "http://127.0.0.1:5174",
+            # Production Vercel deployment
+            "https://agentic-pm-frontend.vercel.app",
+            # Legacy/alternate Vercel preview URLs
             "https://agentic-pm-8f0g.vercel.app",
             "https://agentic-pm-8foq-5isxbpkv-abcd-4a94.vercel.app",
         }
