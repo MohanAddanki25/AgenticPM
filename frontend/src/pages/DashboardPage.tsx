@@ -75,7 +75,7 @@ const DashboardPage: React.FC = () => {
       <header className="bg-white border-b border-slate-200 sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-3">
           <div className="min-w-0">
-            <h1 className="font-bold text-slate-800 text-sm sm:text-base truncate">Agentic AI Project Management &amp; Risk</h1>
+            <h1 className="font-bold text-slate-800 text-sm sm:text-base truncate">Agentic AI Project Management & Risk Monitoring System</h1>
             <p className="text-xs text-slate-500 hidden sm:block">Multi-agent risk analysis, dependency tracking &amp; prioritization</p>
           </div>
           <button onClick={logout} className="text-xs sm:text-sm text-slate-500 hover:text-slate-800 whitespace-nowrap flex-shrink-0">Sign out</button>
