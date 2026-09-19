@@ -48,7 +48,7 @@ async def connect_to_redis():
         client = aioredis.from_url(settings.REDIS_URL, decode_responses=True, socket_connect_timeout=2)
         await client.ping()
         _redis = client
-        logger.info("Connected to real Redis at %s", settings.REDIS_URL)
+        logger.info("Connected to real Redis successfully")
     except Exception as exc:  # noqa: BLE001
         logger.warning("Could not connect to Redis (%s). Using in-memory stub.", exc)
         _redis = _InMemoryRedisStub()

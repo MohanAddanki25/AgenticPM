@@ -46,7 +46,7 @@ async def connect_to_mongo():
         _client = client
         _db = client[settings.MONGO_DB_NAME]
         _using_mock = False
-        logger.info("Connected to real MongoDB at %s", settings.MONGO_URI)
+        logger.info("Connected to real MongoDB successfully")
     except Exception as exc:  # noqa: BLE001
         if not settings.USE_MOCK_DB_FALLBACK:
             raise
