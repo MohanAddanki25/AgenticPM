@@ -25,22 +25,28 @@ class Settings(BaseSettings):
             "http://127.0.0.1:5173",
             "http://localhost:5174",
             "http://127.0.0.1:5174",
-            # Production Vercel deployment
+
+            # Production Vercel deployments
             "https://agentic-pm-frontend.vercel.app",
+            "https://agentic-pm-two.vercel.app",
+
             # Legacy/alternate Vercel preview URLs
             "https://agentic-pm-8f0g.vercel.app",
             "https://agentic-pm-8foq-5isxbpkv-abcd-4a94.vercel.app",
         }
+
         if self.FRONTEND_ORIGIN:
             for o in self.FRONTEND_ORIGIN.split(","):
                 o = o.strip()
                 if o:
                     origins.add(o)
+
         if self.FRONTEND_ORIGINS:
             for o in self.FRONTEND_ORIGINS.split(","):
                 o = o.strip()
                 if o:
                     origins.add(o)
+
         return list(origins)
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
