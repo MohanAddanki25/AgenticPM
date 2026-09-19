@@ -28,7 +28,7 @@ const LoginPage: React.FC = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-100 px-4">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
-        <h1 className="text-2xl font-bold text-slate-800 mb-1">Agentic AI PM</h1>
+        <h1 className="text-2xl font-bold text-slate-800 mb-1">Agentic AI Project Management & Risk Monitoring System</h1>
         <p className="text-slate-500 mb-6 text-sm">Sign in to your project risk dashboard</p>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
